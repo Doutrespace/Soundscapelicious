@@ -23,7 +23,17 @@ fig <- plot_ly(
 )
 fig
 
-#add data from table to plot
+
+#read in the data
+library(readr)
+data2 <- read_csv("C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\SSID Lockdown Database VL0.2.2.csv", sep=",", col_names = TRUE)
+data2
+# df as a dataframe
+data2 <- data.frame(data2)
+
+# df as table
+df <- as.data.frame(df)
 
 
+fig
 
