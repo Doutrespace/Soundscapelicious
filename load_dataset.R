@@ -43,4 +43,18 @@ SSIDVL2_02_new <- load("C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\
 library(knitr)
 kable(SSIDVL2_02)
 
+#new try
 
+library(readr)
+
+
+# upload csv
+
+SSIDVL2_02_new <- read_delim("C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\SSIDVL2_new.csv", 
+                       ",", escape_double = FALSE, trim_ws = TRUE)
+View(SSIDVL2_02_new)
+
+SSIDVL2_02_new <- as.data.frame(SSIDVL2_02_new)
+
+
+write.table(SSIDVL2_02_new,"C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\SSIDVL2_new01.csv",sep = ",")
