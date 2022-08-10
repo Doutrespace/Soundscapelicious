@@ -20,11 +20,27 @@ download.file(url, destfile, check = TRUE, force = TRUE, quiet = TRUE,
 
 #load file
 library(readr)
-SSIDVL2_02 <- read_delim("data/SSIDVL2.02.csv", delim = ";", escape_double = FALSE, trim_ws = TRUE)
+SSIDVL2_02 <- read_delim("data/SSIDVL2.02.csv", delim = ",", escape_double = FALSE, trim_ws = TRUE)
 View(SSIDVL2_02)
 
 
-write.table(SSIDVL2_02, file = "SSIDVL2.02.csv", sep = ",", col.names = NA,
-            qmethod = "double")
+#write table
+write.table(SSIDVL2_02, file = "C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\SSIDVL2_new.csv", sep = ",",col.names = NA)
 
-read.table()
+
+
+# Save an object to a file
+saveRDS(SSIDVL2_02, file = "C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\my_data.rds")
+
+# Restore the object
+my_data <- readRDS(SSIDVL2_02 = "C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\my_data.rds")
+
+# Saving on object in RData format
+save(SSIDVL2_02, file = "C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\data2.RData")
+
+SSIDVL2_02_new <- load("C:\\Users\\nik43jm\\Documents\\PhD\\Sience\\SoundscapeR\\SoundscapeR\\data\\data2.RData")
+
+library(knitr)
+kable(SSIDVL2_02)
+
+
