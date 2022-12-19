@@ -52,12 +52,8 @@ calm <-c(4, 3)
 
 # Join the variables to create a data frame
 soundscape_df <- data.frame(RecordID,pleasant,vibrant,eventful,chaotic,annoying,monotonous,uneventful,calm)
-df
+soundscape_df
 
-#resahpe to long
-library(reshape2)
-soundscape_df_long <- melt(soundscape_df, id.vars = c("RecordID"))
-soundscape_df_wide <- data.frame(RecordID,pleasant,vibrant,eventful,chaotic,annoying,monotonous,uneventful,calm)
 
 #polar with data
 
@@ -68,8 +64,10 @@ fig <- plot_ly(
 fig <- fig %>%
 add_trace(
   type = "scatterpolar",
-  r = soundscape_df_long[,"RecordID"],
-  #theta = c('pleasant', 'vibrant', 'eventful', 'chaotic','annoying', 'monotonous', 'uneventful', 'calm'), #theta = c('pleasant', 'vibrant', 'eventful', 'chaotic','annoying', 'monotonous', 'uneventful', 'calm'),
+  values = soundscape_df_long$RecordID,
+  #customdata = soundscape_df[,], 
+  #r = c(3,5,6),
+  theta = c('pleasant', 'vibrant', 'eventful', 'chaotic','annoying', 'monotonous', 'uneventful', 'calm'), #theta = c('pleasant', 'vibrant', 'eventful', 'chaotic','annoying', 'monotonous', 'uneventful', 'calm'),
   mode = "markers",
   theta.labels = c('pleasant', 'vibrant', 'eventful', 'chaotic','annoying', 'monotonous', 'uneventful', 'calm'),
   fill = 'toself',
@@ -86,96 +84,46 @@ library(ggthemes)
 
 
 
-library(plotly)
+# use EX1 and EX2 from soundscpe_df to build a scatter polar plot
+# Create a data frame with the data
+df <- data.frame(
+  group = factor(rep(letters[1:2], each = 4)),
+  x = c(pleasant, vibrant, eventful, chaotic, annoying, monotonous, uneventful, calm),
+  y = c(pleasant, vibrant, eventful, chaotic, annoying, monotonous, uneventful, calm)
+)
 
-fig <- plot_ly(
-  type = 'scatterpolar',
-  mode = 'lines'
-) 
-fig <- fig %>%
-  add_trace(
-    r = c(5, 4, 2, 4, 5),
-    theta = c("a", "b", "c", "d", "a"),
-    name = 'angular categories',
-    fill = 'toself'
-  ) 
-fig <- fig %>%
-  add_trace(
-    r = c("a", "b", "c", "d", "b", "f", "a"),
-    theta = c(1, 4, 2, 1.5, 1.5, 6, 5),
-    thetaunit = 'radians',
-    name = 'radial categories',
-    fill = 'toself',
-    subplot = 'polar2'
-  ) 
-fig <- fig %>%
-  add_trace(
-    r = c(5, 4, 2, 4, 5),
-    theta = c("a", "b", "c", "d", "a"),
-    name = 'angular categories (w/ categoryarray)',
-    fill = 'toself',
-    subplot = 'polar3'
-  ) 
-fig <- fig %>%
-  add_trace(
-    r = c("a", "b", "c", "d", "b", "f", "a", "a"),
-    theta = c(45, 90, 180, 200, 300, 15, 20, 45),
-    name = 'radial categories (w/ category descending)',
-    fill = 'toself',
-    subplot = 'polar4'
-  ) 
-fig <- fig %>%
-  layout(
-    polar = list(
-      domain = list(
-        x = c(0,0.46),
-        y = c(0.56,1)
-      ),
-      radialaxis = list(
-        angle = 45
-      ),
-      angularaxis = list(
-        direction = 'clockwise',
-        period = 6
-      )
-    ),
-    polar2 = list(
-      domain = list(
-        x = c(0,0.46),
-        y = c(0,0.44)
-      ),
-      radialaxis = list(
-        angle = 180,
-        tickangle = -180
-      )
-    ),
-    polar3 = list(
-      domain = list(
-        x = c(0.54,1),
-        y = c(0.56,1)
-      ),
-      sector = c(150,400),
-      radialaxis = list(
-        angle = -45
-      ),
-      angularaxis = list(
-        categoryarray = c("d", "a", "c", "b")
-      )
-    ),
-    polar4 = list(
-      domain = list(
-        x = c(0.54,1),
-        y = c(0,0.44)
-      ),
-      radialaxis = list(
-        categoryorder = "category descending"
-      ),
-      angularaxis = list(
-        thetaunit= "radians",
-        dtick = 0.3141592653589793
-      )
-    )
-  )
+# Make the plot
+ggplot(soundscape_df_long, aes(variable, value)) +
+  geom_bar() +
+  #coord_polar(theta = "RecordID") +
+  theme_void()
 
-fig
+# Refactoring the data
+dd <- data.frame(category = c(1,2,3,4), value = c(2, 7, 4, 2))
+
+# Almost identical to coord_polar()
+coord_straightpolar <- function(theta = 'x', start = 0, direction = 1, clip = "on") {
+  theta <- match.arg(theta, c("x", "y"))
+  r <- if (theta == "x") 
+    "y"
+  else "x"
+  ggproto(NULL, CoordPolar, theta = theta, r = r, start = start,
+          direction = sign(direction), clip = clip,
+          # This is the different bit
+          is_linear = function(){TRUE})
+}
+
+
+#wide to long
+library(reshape2)
+soundscape_df_long <- melt(soundscape_df, id.vars= "RecordID")
+
+
+ggplot(soundscape_df_long, aes(x = variable, y = value, group=1)) +
+  coord_straightpolar(theta = 'x') +
+  geom_path(color = 'blue') +
+  scale_x_continuous(limits = c(1,4), breaks = 1:3, labels = LETTERS[1:3]) +
+  scale_y_continuous(limits = c(0, NA)) +
+  geom_point()
+
 
