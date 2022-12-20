@@ -83,7 +83,7 @@ legend(x=0.9, y=1.2, legend = rownames(data[-c(1,2),]), bty = "n", pch=20 , col=
 
 ##########################################################################################################################################
 #load data
-ssid  <- read_csv("~/PhD/Sience/CodingIdeas/Soundscapy/test/test_DB/TestDataOnly_2021-01-07.csv")
+ssid  <- read_csv("C:/Users/nik43jm/Documents/PhD/Sience/Dissertation/SoundscapeR/data/TestDataOnly_2021-01-07.csv")
 
 # Remove all rows with NA values
 ssid <- ssid %>% na.omit()
