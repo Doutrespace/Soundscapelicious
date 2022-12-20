@@ -25,7 +25,7 @@ $$
 ISOEventful = [(eventful - uneventful) + \cos{45\degree} * (chaotic - calm) + \cos{45\degree} * (vibrant - monotonous)] * \frac{1}{(4 + \sqrt{32})}
 $$
 
-
+The perceptual attributes (PAs) are arranged around a circumplex as shown in Figure 1. The $\cos{45\degree}$ is used to project the diagonal terms onto the x and y axes, and the scaling factor of $\frac{1}{4 + \sqrt{32}}$ ensures that the resulting coordinates are in the range (-1, 1). This transformation is illustrated in Figure 1.
 
 ### **Workflow**
 
