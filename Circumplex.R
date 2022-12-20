@@ -1,6 +1,12 @@
 # Install and load the plotrix package
 #install.packages("plotrix")
 #remotes::install_github("ricardo-bion/ggradar")
+#devtools::install_github("jtlandis/ggside")
+library(ggplot2)
+library(ggside)
+library(tidyverse)
+library(tidyquant)
+library(devtools)
 library(plotrix)
 library(readr)
 library(tidyverse)
@@ -87,9 +93,6 @@ ssid <- ssid %>% na.omit()
 theme_set(theme_bw())
 
 
-co2_data <- "https://raw.githubusercontent.com/cmdlinetips/data/master/gapminder_data_with_co2_emission.tsv"
-# load the tsv as data frame
-gapminder_co2 <- read_tsv(co2_data)
 
 ssid %>% 
   ggplot(aes(x=Pleasant, y=Eventful, color=LocationID, size= loudness)) +
@@ -101,32 +104,28 @@ data <- data.frame(
   var2 = rnorm(1000, mean=2)
 )
 
-# Chart
-p <- ggplot(ssid, aes(x=x) ) +
-  # Top
-  stat_density( aes(x = Eventful, y = ..density..), fill="#69b3a2",alpha=.6 ) +
-  geom_label( aes(x=1, y=1, label="Eventful"), color="#69b3a2") +
-  # Bottom
-  stat_density( aes(x = Pleasant, y = -..density..), fill= "#404080", alpha=.6) +
-  geom_label( aes(x=1, y=-1, label="Pleasant"), color="#404080") +
-  theme_ipsum()
-
-p
 
 
 
+#First, rather than calculating the median response to each PA in the location, then calculating the circumplex coordinates,
+#the coordinates for each individual response are calculated. This results in a vector of ISOPleasant, ISOEventful values which are continuous variables 
+#from -1 to +1 and can be analysed statistically by calculating summary statistics (mean, standard deviation, quintiles, etc.) 
+#and through the use of regression modelling, which can often be simpler and more familiar than the recommended methods of analysing ordinal data. 
+#This also enables each individual's response to be placed within the pleasant-eventful space. All of the responses for a location can then be plotted, 
+#giving an overall scatter plot for a location, as demonstrated in (i).
 
   # Bin size control + color palette
 ggplot(ssid, aes(x = Eventful, y = Pleasant) ) +
   geom_point() +
   stat_density_2d(aes(fill = ..level.., alpha=.6), geom = "polygon")+
-  scale_x_continuous(expand = c(-1, 2)) +
-  scale_y_continuous(expand = c(-1, 2)) +
+  scale_fill_viridis() +
+  labs(x = "Pleasant", y = "Eventful", subtitle = "Comparison of the soundscapes of urban spaces")+
+  scale_x_continuous(expand = c(-1, 2),breaks = waiver()) +
+  scale_y_continuous(expand = c(-1, 2),breaks = waiver()) +
   geom_hline(yintercept = 0,  linetype = "dashed") +
   geom_vline(xintercept = 0,  linetype = "dashed") +
   geom_abline(intercept = 0, slope = -1, linetype = "dashed")+
   geom_abline(intercept = 0, slope = 1, linetype = "dashed")+
-  scale_fill_continuous(type = "viridis") +
   geom_label(
     label="vibrant", 
     x=0.5,
@@ -153,10 +152,80 @@ ggplot(ssid, aes(x = Eventful, y = Pleasant) ) +
     x=-0.5,
     y=0.5,
     label.size = 0.35,
+    color = "black",
     alpha=0.6
   )
 
 
+#plotting the loudness
+# Chart
+p <- ggplot(ssid, aes(x=x) ) +
+  # Top
+  stat_density( aes(x = Eventful, y = ..density..), fill="#69b3a2",alpha=.6 ) +
+  geom_label( aes(x=1, y=1, label="Eventful"), color="#69b3a2") +
+  # Bottom
+  stat_density( aes(x = Pleasant, y = -..density..), fill= "#404080", alpha=.6) +
+  geom_label( aes(x=1, y=-1, label="Pleasant"), color="#404080") +
+  theme_ipsum()
+
+p
+
+#Fig demonstrates how this simplified representation makes it possible to compare the soundscape of several locations in a sophisticated way.
+
+ggplot(ssid, aes(Eventful, Pleasant, colour=LocationID, fill=LocationID)) + 
+  geom_point() + 
+  geom_density2d(alpha=.5) + 
+  labs(x = "Pleasant", y = "Eventful", subtitle = "Comparison of the soundscapes of urban spaces")+
+  geom_ysidedensity(
+    aes(
+      x    = after_stat(density),
+      fill = LocationID
+    ),
+    alpha    = 0.5,
+    size     = 1,
+    position = "stack"
+  ) +
+  scale_x_continuous(expand = c(-1, 2),breaks = waiver()) +
+  scale_y_continuous(expand = c(-1, 2),breaks = waiver()) +
+  geom_hline(yintercept = 0,  linetype = "dashed") +
+  geom_vline(xintercept = 0,  linetype = "dashed") +
+  geom_abline(intercept = 0, slope = -1, linetype = "dashed")+
+  geom_abline(intercept = 0, slope = 1, linetype = "dashed")+
+  #scale_color_tq() +
+  #scale_fill_tq() +
+  theme_light()+
+  geom_label(
+    label="vibrant", 
+    x=0.5,
+    y=0.5, 
+    label.size = 0.35,
+    color = "black",
+    alpha=0.6
+  )+
+  geom_label(
+    label="monotonous", 
+    x=-0.5,
+    y=-0.5,
+    label.size = 0.35,
+    color = "black",
+    alpha=0.6
+  )+
+  geom_label(
+    label="calm", 
+    x=0.5,
+    y=-0.5,
+    label.size = 0.35,
+    color = "black",
+    alpha=0.6
+  )+
+  geom_label(
+    label="chaotic", 
+    x=-0.5,
+    y=0.5,
+    label.size = 0.35,
+    color = "black",
+    alpha=0.6
+  )
 
 
 
