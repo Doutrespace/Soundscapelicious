@@ -6,7 +6,7 @@ This notebook contains examples and custom functions for analyzing and visualizi
 ![](https://img.shields.io/badge/EAGLE-Design-blue) ![](https://img.shields.io/badge/Approval-pending-red)
 
 
-![](https://github.com/ajcastanedag/SoundScape/blob/main/Images/eyecatcher.PNG)           
+![](https://github.com/ajcastanedag/SoundScape/blob/main/Images/eyecatcher.png)           
 
 ## The ISO 12913 framework
 This study focuses on using questionnaire-based soundscape assessment (Method A) to collect data, as outlined in ISO12913 Part 2. This method involves asking participants to rate the soundscape of a location based on eight perceptual attributes (PAs): pleasant, vibrant, eventful, chaotic, annoying, monotonous, uneventful, and calm. These PAs are typically evaluated independently, but they are thought to form a two-dimensional circumplex model with pleasantness and eventfulness on the x- and y-axes, respectively. A third dimension, familiarity, was also identified in a previous study (Axelsson et al., 2010), but it only accounted for a small amount of variance and is not typically included in the standard circumplex model. The circumplex model is useful for representing the overall perception of a soundscape because it takes into account all of the PAs and their relationships.
