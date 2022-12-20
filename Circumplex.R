@@ -188,20 +188,13 @@ ggplot(ssid, aes(x = Eventful, y = Pleasant) ) +
 
 # circumplex multi
 #Fig demonstrates how this simplified representation makes it possible to compare the soundscape of several locations in a sophisticated way.
+#set a theme
+
 
 ggplot(ssid, aes(Eventful, Pleasant, colour=LocationID, fill=LocationID)) + 
   geom_point() + 
   geom_density2d(alpha=.5) + 
   labs(x = "Pleasant", y = "Eventful", subtitle = "Comparison of the soundscapes of urban spaces")+
-  geom_ysidedensity(
-    aes(
-      x    = after_stat(density),
-      fill = LocationID
-    ),
-    alpha    = 0.5,
-    size     = 1,
-    position = "stack"
-  ) +
   scale_x_continuous(expand = c(-1, 2),breaks = waiver()) +
   scale_y_continuous(expand = c(-1, 2),breaks = waiver()) +
   geom_hline(yintercept = 0,  linetype = "dashed") +
@@ -210,7 +203,6 @@ ggplot(ssid, aes(Eventful, Pleasant, colour=LocationID, fill=LocationID)) +
   geom_abline(intercept = 0, slope = 1, linetype = "dashed")+
   #scale_color_tq() +
   #scale_fill_tq() +
-  theme_light()+
   geom_label(
     label="vibrant", 
     x=0.5,
@@ -242,7 +234,17 @@ ggplot(ssid, aes(Eventful, Pleasant, colour=LocationID, fill=LocationID)) +
     label.size = 0.35,
     color = "black",
     alpha=0.6
-  )
+  )+
+  geom_ysidedensity(
+    aes(
+      x    = after_stat(density),
+      fill = LocationID
+    ),
+    alpha    = 0.5,
+    size     = 1,
+    position = "stack"
+  ) +
+  theme(panel.grid = element_blank())
 
 
 
