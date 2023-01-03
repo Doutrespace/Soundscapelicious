@@ -1,8 +1,8 @@
 # SoundscapeR
-<<<<<<< HEAD
+
 ## How to analyse and represent soundscape perception data
 
-=======
+
 ## How to analyse and represent soundscape perception data in R
 
 This notebook contains examples and custom functions for analyzing and visualizing data from the International Soundscape Database (ISD). The ISD is a collection of survey and acoustic data gathered in urban public areas with the aim of creating a comprehensive dataset for the development of a soundscape prediction model and a set of soundscape indices. The goal of the new visualization method presented in this notebook is to enable sophisticated statistical analyses and accurately represent the range of responses for a given location. Through this notebook, you will learn how to use the code and understand the soundscape perception of urban spaces.
