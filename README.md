@@ -1,7 +1,5 @@
 # SoundscapeR
 
-## How to analyse and represent soundscape perception data
-
 
 ## How to analyse and represent soundscape perception data in R
 
