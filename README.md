@@ -1,4 +1,4 @@
-# SoundscapeR
+# Soundscapelicious
 
 
 ## How to analyse and represent soundscape perception data in R
